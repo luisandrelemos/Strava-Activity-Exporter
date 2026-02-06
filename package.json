@@ -1,5 +1,5 @@
 {
-  "name": "actiexport",
+  "name": "actiexp",
   "version": "1.0.0",
   "description": "Export your Strava activities to GPX, TCX, or FIT formats",
   "main": "server.js",
