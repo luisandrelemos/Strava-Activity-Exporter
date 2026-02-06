@@ -6,7 +6,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
-const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -20,7 +19,7 @@ app.get('/auth', (req, res) => {
         return res.status(500).json({ error: 'STRAVA_CLIENT_ID not configured' });
     }
 
-    const redirectUri = `${BASE_URL}/callback`;
+    const redirectUri = `http://localhost:${PORT}/callback`;
     const scope = 'read,activity:read_all';
     const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scope}`;
     res.redirect(authUrl);
