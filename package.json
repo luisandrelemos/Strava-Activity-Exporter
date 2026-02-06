@@ -1,7 +1,7 @@
 {
-  "name": "strava-activity-exporter",
+  "name": "actiexport",
   "version": "1.0.0",
-  "description": "Export Strava activities to GPX, TCX, or FIT formats",
+  "description": "Export your Strava activities to GPX, TCX, or FIT formats",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
