@@ -67,6 +67,10 @@ body {
     letter-spacing: -0.5px;
 }
 
+.logo-short {
+    display: none;
+}
+
 .powered-by-header {
     display: flex;
     align-items: center;
@@ -1142,5 +1146,21 @@ input[type="checkbox"]:indeterminate::after {
     .footer-right {
         text-align: center;
         justify-content: center;
+    }
+}
+
+@media (max-width: 580px) {
+    #user-name {
+        display: none;
+    }
+}
+
+@media (max-width: 425px) {
+    .logo-full {
+        display: none;
+    }
+
+    .logo-short {
+        display: inline;
     }
 }
