@@ -35,12 +35,21 @@ const App = {
             footer: document.querySelector('.main-footer'),
             privacyBtn: document.getElementById('privacy-btn'),
             privacyModal: document.getElementById('privacy-modal'),
-            privacyClose: document.getElementById('privacy-close')
+            privacyClose: document.getElementById('privacy-close'),
+            filenameBtn: document.getElementById('filename-btn'),
+            filenameModal: document.getElementById('filename-modal'),
+            filenameClose: document.getElementById('filename-close'),
+            filenameTemplateInput: document.getElementById('filename-template-input'),
+            filenamePreview: document.getElementById('filename-preview-text'),
+            filenameSave: document.getElementById('filename-save'),
+            filenameReset: document.getElementById('filename-reset'),
+            dateFormatSelect: document.getElementById('date-format-select')
         };
 
         Activities.init();
         this.elements.logoutBtn.addEventListener('click', () => this.logout());
         this.initPrivacyModal();
+        this.initFilenameModal();
         this.handleAuth();
     },
 
@@ -58,6 +67,96 @@ const App = {
                 Utils.hide(this.elements.privacyModal);
             }
         });
+    },
+
+    initFilenameModal() {
+        let mouseDownOnBackdrop = false;
+
+        this.dateFormatDropdown = Utils.createCustomDropdown(this.elements.dateFormatSelect);
+
+        this.elements.filenameBtn.addEventListener('click', () => {
+            const savedTemplate = localStorage.getItem(Config.STORAGE_KEYS.FILENAME_TEMPLATE) || Config.FILENAME_TEMPLATE;
+            const savedFormat = localStorage.getItem(Config.STORAGE_KEYS.DATE_FORMAT) || Config.DATE_FORMAT;
+            this.elements.filenameTemplateInput.value = savedTemplate;
+            this.elements.dateFormatSelect.value = savedFormat;
+            this.dateFormatDropdown.updateDisplay();
+            this.updateFilenamePreview();
+            Utils.show(this.elements.filenameModal);
+        });
+
+        this.elements.filenameClose.addEventListener('click', () => {
+            Utils.hide(this.elements.filenameModal);
+        });
+
+        this.elements.filenameModal.addEventListener('mousedown', (e) => {
+            mouseDownOnBackdrop = e.target === this.elements.filenameModal;
+        });
+
+        this.elements.filenameModal.addEventListener('click', (e) => {
+            if (e.target === this.elements.filenameModal && mouseDownOnBackdrop) {
+                Utils.hide(this.elements.filenameModal);
+            }
+        });
+
+        this.elements.filenameTemplateInput.addEventListener('input', () => {
+            this.updateFilenamePreview();
+        });
+
+        this.elements.dateFormatSelect.addEventListener('change', () => {
+            this.updateFilenamePreview();
+        });
+
+        const separators = new Set(['_', '-', '.', ' ']);
+
+        document.querySelectorAll('.filename-var-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const input = this.elements.filenameTemplateInput;
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const val = input.value;
+                const varStr = chip.dataset.var;
+
+                const charBefore = val[start - 1];
+                const charAfter = val[end];
+                const prefix = (charBefore !== undefined && !separators.has(charBefore)) ? '_' : '';
+                const suffix = (charAfter !== undefined && !separators.has(charAfter)) ? '_' : '';
+
+                const insertion = prefix + varStr + suffix;
+                input.value = val.slice(0, start) + insertion + val.slice(end);
+                input.setSelectionRange(start + insertion.length, start + insertion.length);
+                input.focus();
+                this.updateFilenamePreview();
+            });
+        });
+
+        this.elements.filenameSave.addEventListener('click', () => {
+            const template = this.elements.filenameTemplateInput.value.trim() || Config.FILENAME_TEMPLATE;
+            const dateFormat = this.elements.dateFormatSelect.value;
+            localStorage.setItem(Config.STORAGE_KEYS.FILENAME_TEMPLATE, template);
+            localStorage.setItem(Config.STORAGE_KEYS.DATE_FORMAT, dateFormat);
+            Utils.hide(this.elements.filenameModal);
+        });
+
+        this.elements.filenameReset.addEventListener('click', () => {
+            this.elements.filenameTemplateInput.value = Config.FILENAME_TEMPLATE;
+            this.elements.dateFormatSelect.value = Config.DATE_FORMAT;
+            this.dateFormatDropdown.updateDisplay();
+            localStorage.removeItem(Config.STORAGE_KEYS.FILENAME_TEMPLATE);
+            localStorage.removeItem(Config.STORAGE_KEYS.DATE_FORMAT);
+            this.updateFilenamePreview();
+        });
+    },
+
+    updateFilenamePreview() {
+        const template = this.elements.filenameTemplateInput.value || Config.FILENAME_TEMPLATE;
+        const dateFormat = this.elements.dateFormatSelect.value || Config.DATE_FORMAT;
+        const exampleActivity = {
+            start_date: new Date().toISOString(),
+            name: 'Morning Run',
+            type: 'Run',
+            id: '12345678'
+        };
+        this.elements.filenamePreview.textContent = Utils.applyFilenameTemplate(template, exampleActivity, dateFormat) + '.gpx';
     },
 
     handleAuth() {

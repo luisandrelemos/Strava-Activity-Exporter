@@ -1092,6 +1092,123 @@ input[type="checkbox"]:indeterminate::after {
     text-decoration: underline;
 }
 
+.btn-settings {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-settings:hover {
+    color: var(--strava-orange);
+    border-color: var(--strava-orange);
+    background: rgba(252, 76, 2, 0.06);
+}
+
+.filename-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filename-setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filename-label,
+.filename-vars-label,
+.filename-preview-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.filename-input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    background: var(--white);
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.filename-input:focus {
+    outline: none;
+    border-color: var(--strava-orange);
+    box-shadow: 0 0 0 3px rgba(252, 76, 2, 0.1);
+}
+
+.filename-setting-group .custom-dropdown {
+    width: 100%;
+}
+
+.filename-vars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filename-var-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filename-var-chip {
+    padding: 4px 10px;
+    background: rgba(252, 76, 2, 0.07);
+    border: 1px solid rgba(252, 76, 2, 0.2);
+    border-radius: 99px;
+    font-size: 13px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    color: var(--strava-orange);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.filename-var-chip:hover {
+    background: rgba(252, 76, 2, 0.15);
+    border-color: var(--strava-orange);
+}
+
+.filename-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filename-preview-code {
+    display: block;
+    padding: 10px 14px;
+    background: #f7f7fa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    color: var(--text-primary);
+    word-break: break-all;
+    min-height: 38px;
+}
+
+.filename-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-top: 4px;
+}
+
 @media (max-width: 768px) {
     .header-content {
         padding: 0 16px;
