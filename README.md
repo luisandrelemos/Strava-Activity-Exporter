@@ -6,6 +6,8 @@ A web application to export your Strava activities to **GPX**, **TCX**, or **FIT
 
 ![App](public/img/app.png)
 
+![App2](public/img/app2.png)
+
 ---
 
 ## 📱 Features
@@ -20,6 +22,8 @@ A web application to export your Strava activities to **GPX**, **TCX**, or **FIT
    Download multiple activities at once as a ZIP file.
 - 🎯 **Smart Filters:**
    Filter by sport type, date range, or activity name.
+- 🏷️ **Custom Filename Template:**
+   Define your own naming pattern using variables like `{date}`, `{name}`, `{type}`, and `{id}`, with selectable date formats.
 
 ---
 
@@ -93,6 +97,27 @@ server.js         → Express server with OAuth handling
 | **FIT** | Original file from your device |
 | **GPX** | GPS track with coordinates and elevation |
 | **TCX** | Training data with heart rate, cadence, and power |
+
+---
+
+## 🏷️ Custom Filename Template
+
+Click the ⚙️ button next to Download to configure how exported files are named.
+
+**Available variables:**
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{date}` | Activity date | `2026-02-23` |
+| `{name}` | Activity name | `Morning_Run` |
+| `{type}` | Sport type | `Run` |
+| `{id}` | Strava activity ID | `12345678` |
+
+**Date formats:** `YYYY-MM-DD`, `YYYYMMDD`, `DD-MM-YYYY`, `MM-DD-YYYY`
+
+**Default template:** `{date}_{name}` → `2026-02-23_Morning_Run.gpx`
+
+> **Note:** Custom filenames apply to GPX and TCX exports only. FIT (original) files are downloaded directly from Strava and cannot be renamed.
 
 ---
 
