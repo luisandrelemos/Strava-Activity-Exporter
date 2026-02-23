@@ -157,6 +157,12 @@
                         <option value="tcx">TCX</option>
                     </select>
                     <button id="download-btn" class="btn-download" disabled>Download</button>
+                    <button id="filename-btn" class="btn-settings" title="Filename settings">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
@@ -225,6 +231,49 @@
             </div>
         </div>
     </footer>
+
+    <div id="filename-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filename Settings</h3>
+                <button id="filename-close" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filename-settings">
+                    <div class="filename-setting-group">
+                        <label class="filename-label">Template</label>
+                        <input type="text" id="filename-template-input" class="filename-input" placeholder="{date}_{name}">
+                    </div>
+                    <div class="filename-vars">
+                        <span class="filename-vars-label">Click to insert variable</span>
+                        <div class="filename-var-chips">
+                            <button class="filename-var-chip" data-var="{date}" title="Date (format below)">{date}</button>
+                            <button class="filename-var-chip" data-var="{name}" title="Activity name">{name}</button>
+                            <button class="filename-var-chip" data-var="{type}" title="Sport type">{type}</button>
+                            <button class="filename-var-chip" data-var="{id}" title="Strava activity ID">{id}</button>
+                        </div>
+                    </div>
+                    <div class="filename-setting-group">
+                        <label class="filename-label" for="date-format-select">Date Format</label>
+                        <select id="date-format-select" class="filename-select">
+                            <option value="YYYY-MM-DD">YYYY-MM-DD &nbsp;(2026-02-23)</option>
+                            <option value="YYYYMMDD">YYYYMMDD &nbsp;(20260223)</option>
+                            <option value="DD-MM-YYYY">DD-MM-YYYY &nbsp;(23-02-2026)</option>
+                            <option value="MM-DD-YYYY">MM-DD-YYYY &nbsp;(02-23-2026)</option>
+                        </select>
+                    </div>
+                    <div class="filename-preview">
+                        <span class="filename-preview-label">Preview</span>
+                        <code id="filename-preview-text" class="filename-preview-code"></code>
+                    </div>
+                    <div class="filename-actions">
+                        <button id="filename-reset" class="btn-clear">Reset to default</button>
+                        <button id="filename-save" class="btn-search">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="privacy-modal" class="modal hidden">
         <div class="modal-content">

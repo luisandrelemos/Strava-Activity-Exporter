@@ -136,8 +136,9 @@ const Export = {
             throw new Error('Could not generate export file. Activity may not have GPS data.');
         }
 
-        const date = Utils.formatDate(activity.start_date).replace(/,/g, '').replace(/\s+/g, '_');
-        const filename = `${date}_${Utils.safeFilename(activity.name)}.${extension}`;
+        const template = localStorage.getItem(Config.STORAGE_KEYS.FILENAME_TEMPLATE) || Config.FILENAME_TEMPLATE;
+        const dateFormat = localStorage.getItem(Config.STORAGE_KEYS.DATE_FORMAT) || Config.DATE_FORMAT;
+        const filename = Utils.applyFilenameTemplate(template, activity, dateFormat) + '.' + extension;
 
         return { content, filename, mimeType };
     },
@@ -187,7 +188,6 @@ const Export = {
 
         for (const activity of activities) {
             if (onProgress) onProgress(completed, activities.length, activity.name);
-
             try {
                 const win = window.open(this.getFitUrl(activity.id), '_blank');
                 if (!win || win.closed || typeof win.closed === 'undefined') {
@@ -201,6 +201,7 @@ const Export = {
         }
 
         if (onProgress) onProgress(completed, activities.length, 'Done!');
+
         return { completed, errors };
     }
 };

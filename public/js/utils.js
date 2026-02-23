@@ -26,6 +26,28 @@ const Utils = {
         return name.replace(/[<>:"/\\|?*]/g, '').replace(/\s+/g, '_').substring(0, 100);
     },
 
+    formatDateForFilename(dateString, format) {
+        const d = new Date(dateString);
+        const yyyy = d.getUTCFullYear();
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        switch (format) {
+            case 'YYYYMMDD':    return `${yyyy}${mm}${dd}`;
+            case 'DD-MM-YYYY':  return `${dd}-${mm}-${yyyy}`;
+            case 'MM-DD-YYYY':  return `${mm}-${dd}-${yyyy}`;
+            default:            return `${yyyy}-${mm}-${dd}`;
+        }
+    },
+
+    applyFilenameTemplate(template, activity, dateFormat) {
+        const date = this.formatDateForFilename(activity.start_date, dateFormat);
+        return template
+            .replace(/\{date\}/g, date)
+            .replace(/\{name\}/g, this.safeFilename(activity.name || 'Untitled'))
+            .replace(/\{type\}/g, this.safeFilename(activity.type || 'Activity'))
+            .replace(/\{id\}/g, String(activity.id));
+    },
+
     downloadFile(content, filename, mimeType) {
         const blob = new Blob([content], { type: mimeType });
         const url = URL.createObjectURL(blob);
