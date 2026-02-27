@@ -29,7 +29,7 @@ A web application to export your Strava activities to **GPX**, **TCX**, or **FIT
 
 ## ⚙️ Tech Stack
 
-- **Backend:** Node.js, Express
+- **Backend:** Node.js 18+, Express
 - **Frontend:** Vanilla HTML, CSS, JavaScript
 - **APIs:** Strava API v3
 - **Libraries:** JSZip (client-side ZIP generation)
@@ -68,6 +68,8 @@ STRAVA_CLIENT_SECRET=your_client_secret
 ```
 
 ### 4. Install and Run
+
+> **Requires Node.js 18 or higher** (uses the native `fetch` API)
 
 ```bash
 npm install
