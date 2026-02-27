@@ -48,11 +48,22 @@ app.get('/callback', async (req, res) => {
             })
         });
 
-        const data = await response.json();
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            console.error('Token exchange: response is not valid JSON (status:', response.status, ')');
+            return res.redirect('/?error=token_exchange_failed');
+        }
 
         if (!response.ok) {
             console.error('Token exchange failed:', data);
             return res.redirect(`/?error=${encodeURIComponent(data.message || 'token_exchange_failed')}`);
+        }
+
+        if (!data.athlete) {
+            console.error('Token exchange: missing athlete in response:', data);
+            return res.redirect('/?error=token_exchange_failed');
         }
 
         const params = new URLSearchParams({
